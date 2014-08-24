@@ -1,0 +1,13 @@
+#!/bin/sh
+if mountpoint -q /target; then
+	echo "Installing cbfsclient to /target"
+	cp /root/go/bin/cbfsclient /target
+	cp /root/go/bin/cbfs /target
+	echo "Installing cbfs to /target"
+else
+	echo "/target is not a mountpoint."
+	echo "You can either:"
+	echo "- re-run this container with -v /usr/local/bin:/target"
+	echo "- extract the cbfs binary (located at /root/go/bin/cbfs)"
+	echo "- re-run this image with run"
+fi
