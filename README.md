@@ -42,43 +42,45 @@ your system's `$PATH`, you can also do this:
 Then do whatever you want with the binary in `/tmp/nsenter`.
 
 
-##  How do I *use* `nsenter`?
+How do I get the stuff
+======================
 
-First, figure out the PID of the container you want to enter:
+    go get github.com/couchbaselabs/cbfs
 
-    PID=$(docker inspect --format {{.State.Pid}} <container_name_or_ID>)
+And you'll find the source in
+`$GOPATH/src/github.com/couchbaselabs/cbfs` (and a `cbfs` binary
+should be in your path)
 
-Then enter the container:
-
-    nsenter --target $PID --mount --uts --ipc --net --pid
-
-
-## What's that docker-enter thing?
-
-It's just a small shell script that wraps up the steps described above into
-a tiny helper. It takes the name or ID of a container and optionally the name
-of a program to execute inside the namespace. If no command is specified a
-shell will be invoked instead.
-
-    # list the root filesystem
-    docker-enter my_awesome_container ls -la
-
-## docker-enter with boot2docker
-
-If you are using boot2docker, you can use the function below, to:
-
-- install `nsenter` and `docker-enter` into boot2docker's /var/lib/boot2docker/ directory,
-  so they survive restarts.
-- execute `docker-enter` inside of boot2docker combined with ssh
+How do I build the stuff
+========================
 
 ```
-docker-enter() {
-  boot2docker ssh '[ -f /var/lib/boot2docker/nsenter ] || docker run --rm -v /var/lib/boot2docker/:/target jpetazzo/nsenter'
-  boot2docker ssh sudo /var/lib/boot2docker/docker-enter "$@"
-}
+cd $GOPATH/src/pkg/github.com/couchbaselabs/cbfs
+go build
 ```
 
-You can use it directly from your host (OS X/Windows), no need to ssh into boot2docker.
+How do I run the stuff
+======================
+
+```
+mkdir -p /tmp/localdata
+./cbfs -nodeID=$mynodeid \
+       -bucket=cbfs \
+       -couchbase=http://$mycouchbaseserver:8091/
+       -root=/tmp/localdata \
+       -viewProxy
+```
+
+The server will be empty at this point, you can install the monitor
+using cbfsclient (`go get github.com/couchbaselabs/cbfs/tools/cbfsclient`)
+
+```
+cbfsclient http://localhost:8484/ upload \
+    $GOPATH/src/github.com/couchbaselabs/cbfs/monitor monitor
+```
+
+Then go to [http://localhost:8484/monitor/](http://localhost:8484/monitor/)
+
 
 ## Caveats
 
