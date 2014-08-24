@@ -1,0 +1,12 @@
+#!/bin/bash
+echo "--------------------------------------\n"
+echo "You can run this "
+mkdir -p /tmp/localdata
+echo "/cbfs -nodeID=$mynodeid \
+       -bucket=cbfs \
+       -couchbase=http://$cbserver:8091/
+       -root=/tmp/localdata \
+       -viewProxy"
+       
+# cbfsclient http://localhost:8484/ upload \
+#    $GOPATH/src/github.com/couchbaselabs/cbfs/monitor monitor
