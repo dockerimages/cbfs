@@ -1,8 +1,8 @@
 FROM mischief/docker-golang
-RUN go get github.com/couchbaselabs/cbfs/tools/cbfsclient \
- && go get github.com/couchbaselabs/cbfs \
- && cp /root/go/bin/cbfs /usr/local/bin \
- && cp /root/go/bin/cbfsclient /usr/local/bin
+MAINTAINER Frank Lemanschik @ DIREKTSPEED LTD <frank@dspeed.eu>
+RUN go get github.com/couchbaselabs/cbfs \
+ && go build -o /cbfs github.com/couchbaselabs/cbfs
+
 COPY installer /
 COPY run /
-CMD /installer
+CMD /run
