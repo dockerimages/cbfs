@@ -3,9 +3,9 @@ echo "--------------------------------------\n"
 echo "You can run this "
 mkdir -p /tmp/localdata
 
-/cbfs/cbfs -nodeID=$mynodeid \
+/cbfs/cbfs -nodeID=$MYNODEID \
        -bucket=cbfs \
-       -couchbase=http://$cbserver:8091/
+       -couchbase=http://$CBSERVER:8091/
        -root=/tmp/localdata \
        -viewProxy" &
        
