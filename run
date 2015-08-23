@@ -7,7 +7,7 @@ mkdir -p /tmp/localdata
        -bucket=cbfs \
        -couchbase=http://$cbserver:8091/
        -root=/tmp/localdata \
-       -viewProxy"
+       -viewProxy" &
        
 /cbfs/cbfsclient http://localhost:8484/ upload \
     /cbfs/monitor monitor
