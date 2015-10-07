@@ -1,13 +1,9 @@
 #!/bin/bash
-echo "--------------------------------------\n"
-echo "You can run this "
+# we could use paste to at or anything else to ensure monitor is installed in this cluster or even leave it away
+$(sleep 30; /cbfs/cbfsclient http://localhost:8484/ upload /cbfs/monitor monitor) &
 mkdir -p /tmp/localdata
-
 /cbfs/cbfs -nodeID=$MYNODEID \
        -bucket=cbfs \
        -couchbase=http://$CBSERVER:8091/
        -root=/tmp/localdata \
-       -viewProxy" &
-       
-/cbfs/cbfsclient http://localhost:8484/ upload \
-    /cbfs/monitor monitor
+       -viewProxy"
